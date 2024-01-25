@@ -68,8 +68,3 @@ To get a local copy up and running, follow these steps:
 ## Usage
 
 Instructions on how to use the project once it's set up locally.
-
-
----
-
-Feel free to replace placeholders like `link/to/demo`, `link/to/contributing/file`, `link/to/license/file`, and customize sections according to your project's details. This README template provides a structured format to present your Taskify project on GitHub.
