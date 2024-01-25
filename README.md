@@ -1,28 +1,29 @@
 # Taskify
 
-Taskify is a web-based task management application designed to help users organize their tasks efficiently.
-
+Taskify is a web-based task management application designed to help users organize their tasks efficiently. Whether it's personal tasks, work-related projects, or collaborative assignments, Taskify provides a user-friendly interface for creating, managing, and tracking tasks in real-time.
 
 ## Features
 
 - **User Authentication:** Sign up, log in, and secure access to features.
-  
 - **Task Management:**
-   - **Create Tasks:** Specify title, description, due date, priority, and assignee.
-   - **View Tasks:** Categorized dashboard (To-Do, In Progress, Done).
-   - **Edit and Delete Tasks:** Modify task details or remove tasks.
+
+  - **Create Tasks:** Specify title, description, due date, priority, and assignee.
+  - **View Tasks:** Categorized dashboard (To-Do, In Progress, Done).
+  - **Edit and Delete Tasks:** Modify task details or remove tasks.
 
 - **Collaboration:**
-   - **Assign Tasks:** Facilitate teamwork by assigning tasks.
-   - **Task Comments:** Communicate and update within the task context.
+
+  - **Assign Tasks:** Facilitate teamwork by assigning tasks.
+  - **Task Comments:** Communicate and update within the task context.
 
 - **Search and Filter:**
-   - **Search Tasks:** Find specific tasks using keywords or filters.
-   - **Filter Tasks:** Filter tasks by status, priority, due date, or assignee.
+
+  - **Search Tasks:** Find specific tasks using keywords or filters.
+  - **Filter Tasks:** Filter tasks by status, priority, due date, or assignee.
 
 - **Notifications:**
-   - **Task Reminders:** Receive notifications for upcoming deadlines or task assignments.
-   - **Activity Feed:** Stay updated on task changes or updates.
+  - **Task Reminders:** Receive notifications for upcoming deadlines or task assignments.
+  - **Activity Feed:** Stay updated on task changes or updates.
 
 ## Technologies Used
 
@@ -44,21 +45,25 @@ To get a local copy up and running, follow these steps:
 ### Installation
 
 1. Clone the repository:
+
    ```bash
    https://github.com/Shaul1Kr/Taskify.git
    ```
 
 2. Navigate to the project directory:
+
    ```bash
    cd taskify
    ```
 
 3. Install dependencies:
+
    ```bash
    npm install
    ```
 
 4. Start the development server:
+
    ```bash
    npm start
    ```
