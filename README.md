@@ -1,7 +1,3 @@
-Certainly! Here's a README template customized specifically for the Taskify project described earlier:
-
----
-
 # Taskify
 
 Taskify is a web-based task management application designed to help users organize their tasks efficiently.
