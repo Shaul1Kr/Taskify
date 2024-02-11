@@ -4,7 +4,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import mongoose from "mongoose";
 import api from "./routes/api";
-import data from "./data/users";
+import data from "./data/data";
 
 const app = express();
 dotenv.config();
