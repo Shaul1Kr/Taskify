@@ -5,11 +5,11 @@ import User from "../models/User";
 
 export async function login(req: Request, res: Response) {
   try {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
     console.info(
-      `Trying to login with Username ${username} and Password ${password}`
+      `Trying to login with email ${email} and password ${password}`
     );
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ email });
     if (!user)
       return res.status(403).json({ msg: "email or password incorrect" });
     const isMatch = await bcrypt.compare(password, user.password);
@@ -30,15 +30,14 @@ export async function login(req: Request, res: Response) {
 
 export async function register(req: Request, res: Response) {
   try {
-    const { firstName, lastName, username, password } = req.body;
+    const { username, email, password } = req.body;
     console.log(
-      `Trying to register for a new user with first name: ${firstName} last name: ${lastName} user name: ${username} and password: ${password}`
+      `Trying to register for a new user with email: ${email} username: ${username} and password: ${password}`
     );
     const salt = await bcrypt.genSalt();
     const saltPassword = await bcrypt.hash(password, salt);
     await User.create({
-      firstName,
-      lastName,
+      email,
       username,
       password: saltPassword,
     });
@@ -51,11 +50,11 @@ export async function register(req: Request, res: Response) {
 
 export async function changePassword(req: Request, res: Response) {
   try {
-    const { username, password, newPassword } = req.body;
+    const { email, password, newPassword } = req.body;
     console.log(
-      `Trying to change password with user name: ${username} password: ${password} with new password ${newPassword}`
+      `Trying to change password with email: ${email} password: ${password} with new password ${newPassword}`
     );
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ email });
     if (!user)
       return res.status(403).json({ msg: "email or password incorrect" });
     const isMatch = await bcrypt.compare(password, user.password);
@@ -63,7 +62,7 @@ export async function changePassword(req: Request, res: Response) {
       return res.status(403).json({ msg: "email or password incorrect" });
     const salt = await bcrypt.genSalt();
     const newSaltPassword = await bcrypt.hash(newPassword, salt);
-    await User.findOneAndUpdate({ username }, { password: newSaltPassword });
+    await User.findOneAndUpdate({ email }, { password: newSaltPassword });
     return res.status(200).send("Password as been changed");
   } catch (error) {
     console.error(error);
