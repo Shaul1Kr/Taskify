@@ -10,11 +10,15 @@ export async function login(req: Request, res: Response) {
       `Trying to login with email ${email} and password ${password}`
     );
     const user = await User.findOne({ email });
-    if (!user)
+    if (!user) {
+      console.info("email or password incorrect1");
       return res.status(403).json({ msg: "email or password incorrect" });
+    }
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch)
+    if (!isMatch) {
+      console.info("email or password incorrect2");
       return res.status(403).json({ msg: "email or password incorrect" });
+    }
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });

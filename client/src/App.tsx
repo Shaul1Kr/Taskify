@@ -1,10 +1,12 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Login from "./Pages/Login";
+import Tasks from "./Pages/Tasks";
 
-function App() {
-  return <div>asdsad</div>;
+const router = createBrowserRouter([
+  { path: "", element: <Login /> },
+  { path: "TaskManager", element: <Tasks /> },
+]);
+
+export default function App() {
+  return <RouterProvider router={router} />;
 }
-
-export default App;
