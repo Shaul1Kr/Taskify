@@ -5,10 +5,12 @@ import user from "./user";
 import search from "./search";
 import collaboration from "./collaboration";
 import notification from "./notification";
+import verifyToken from "../middleware/auth";
 
 const router = express.Router();
 
 router.use("/auth", auth);
+router.use(verifyToken);
 router.use("/task", task);
 router.use("/user", user);
 router.use("/serach", search);

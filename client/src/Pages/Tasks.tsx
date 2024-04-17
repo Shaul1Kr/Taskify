@@ -1,16 +1,25 @@
-import { useEffect, useState } from "react";
 import axios from "axios";
+import { useLoaderData } from "react-router-dom";
+import { redirect } from "react-router-dom";
+
+// eslint-disable-next-line react-refresh/only-export-components
+export async function loader() {
+  try {
+    const response = await axios.get(
+      "http://localhost:8080/api/task/getTasks",
+      {
+        withCredentials: true,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return redirect("/");
+  }
+}
 
 export default function Tasks() {
-  const [tasks, setTasks] = useState<Array<Task>>();
-  useEffect(() => {
-    axios
-      .get("http://localhost:8080/api/task/getTasks", {
-        withCredentials: true,
-      })
-      .then((res) => setTasks(res.data));
-  }, []);
-  console.log(tasks);
+  const { tasks } = useLoaderData() as Tasks;
 
   return (
     <div>

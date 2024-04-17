@@ -2,6 +2,7 @@ import axios from "axios";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 
 interface User {
   email: string;
@@ -42,38 +43,49 @@ export default function Login() {
   };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={onSubmit}
-    >
-      {({ isSubmitting }) => (
-        <Form>
-          <label htmlFor="email">Email:</label>
-          <Field
-            type="email"
-            id="email"
-            name="email"
-            placeholder="Enter your email"
-          />
-          <ErrorMessage name="email" component="div" className="error" />
-          <br />
+    <PageContainer>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+      >
+        {({ isSubmitting }) => (
+          <FormWrapper>
+            <label htmlFor="email">Email:</label>
+            <Field
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter your email"
+            />
+            <ErrorMessage name="email" component="div" className="error" />
+            <br />
 
-          <label htmlFor="password">Password:</label>
-          <Field
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Enter your password"
-          />
-          <ErrorMessage name="password" component="div" className="error" />
-          <br />
+            <label htmlFor="password">Password:</label>
+            <Field
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter your password"
+            />
+            <ErrorMessage name="password" component="div" className="error" />
+            <br />
 
-          <button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Submitting..." : "Submit"}
-          </button>
-        </Form>
-      )}
-    </Formik>
+            <button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Submitting..." : "Submit"}
+            </button>
+          </FormWrapper>
+        )}
+      </Formik>
+    </PageContainer>
   );
 }
+
+const PageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+`;
+
+const FormWrapper = styled(Form)``;

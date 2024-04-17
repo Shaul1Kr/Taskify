@@ -4,13 +4,15 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import mongoose from "mongoose";
 import api from "./routes/api";
-import data from "./data/data";
+import cookieParser from "cookie-parser";
+// import data from "./data/data";
 
 const app = express();
 dotenv.config();
 app.use(express.json());
 app.use(cors({ origin: true, credentials: true }));
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use("/api", api);
 
 const PORT = process.env.PORT;
