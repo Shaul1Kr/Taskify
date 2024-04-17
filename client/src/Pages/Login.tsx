@@ -2,6 +2,7 @@ import axios from "axios";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import LogoSrc from "../assets/logo.jpg";
 import styled from "styled-components";
 
 interface User {
@@ -44,6 +45,7 @@ export default function Login() {
 
   return (
     <PageContainer>
+      <Logo src={LogoSrc} />
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -51,7 +53,8 @@ export default function Login() {
       >
         {({ isSubmitting }) => (
           <FormWrapper>
-            <label htmlFor="email">Email:</label>
+            <label htmlFor="email">Email</label>
+            <br />
             <Field
               type="email"
               id="email"
@@ -61,7 +64,8 @@ export default function Login() {
             <ErrorMessage name="email" component="div" className="error" />
             <br />
 
-            <label htmlFor="password">Password:</label>
+            <label htmlFor="password">Password</label>
+            <br />
             <Field
               type="password"
               id="password"
@@ -86,6 +90,14 @@ const PageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin: auto;
+  width: 16%;
+  padding: 3rem;
+  background-color: whitesmoke;
 `;
 
 const FormWrapper = styled(Form)``;
+
+const Logo = styled.img`
+  width: 50%;
+  border-radius: 100px;
+`;
