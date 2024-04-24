@@ -1,14 +1,14 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Login from "./Pages/Login";
 import Tasks, { loader as TaskManagerLoader } from "./Pages/Tasks";
 import Layout from "./Layout/Layout";
+import Form from "./Pages/Form";
 
 const router = createBrowserRouter([
   {
     path: "",
     element: <Layout />,
     children: [
-      { path: "", element: <Login /> },
+      { path: "", element: <Form /> },
       { path: "TaskManager", loader: TaskManagerLoader, element: <Tasks /> },
     ],
   },

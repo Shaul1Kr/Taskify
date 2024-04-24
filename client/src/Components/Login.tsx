@@ -1,9 +1,13 @@
+import { Dispatch, SetStateAction } from "react";
 import axios from "axios";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
-import LogoSrc from "../assets/logo.jpg";
 import styled from "styled-components";
+
+interface LoginProps {
+  setStep: Dispatch<SetStateAction<string>>;
+}
 
 interface User {
   email: string;
@@ -19,7 +23,7 @@ const validationSchema = Yup.object<User>({
     .required("Password is required"),
 });
 
-export default function Login() {
+export default function Login({ setStep }: LoginProps) {
   const navigate = useNavigate();
 
   const initialValues: User = {
@@ -44,8 +48,7 @@ export default function Login() {
   };
 
   return (
-    <PageContainer>
-      <Logo src={LogoSrc} />
+    <>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -53,6 +56,7 @@ export default function Login() {
       >
         {({ isSubmitting }) => (
           <FormWrapper>
+            <br />
             <label htmlFor="email">Email</label>
             <br />
             <Field
@@ -61,7 +65,7 @@ export default function Login() {
               name="email"
               placeholder="Enter your email"
             />
-            <ErrorMessage name="email" component="div" className="error" />
+            <Error name="email" component="div" className="error" />
             <br />
 
             <label htmlFor="password">Password</label>
@@ -72,32 +76,38 @@ export default function Login() {
               name="password"
               placeholder="Enter your password"
             />
-            <ErrorMessage name="password" component="div" className="error" />
+            <Error name="password" component="div" className="error" />
             <br />
 
-            <button type="submit" disabled={isSubmitting}>
+            <Submit type="submit" disabled={isSubmitting}>
               {isSubmitting ? "Submitting..." : "Submit"}
-            </button>
+            </Submit>
           </FormWrapper>
         )}
       </Formik>
-    </PageContainer>
+      <A onClick={() => setStep("Register")}>Register</A>
+    </>
   );
 }
 
-const PageContainer = styled.div`
+const FormWrapper = styled(Form)`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin: auto;
-  width: 16%;
-  padding: 3rem;
-  background-color: whitesmoke;
 `;
 
-const FormWrapper = styled(Form)``;
+const Submit = styled.button`
+  cursor: pointer;
+`;
 
-const Logo = styled.img`
-  width: 50%;
-  border-radius: 100px;
+const Error = styled(ErrorMessage)`
+  color: red;
+`;
+
+const A = styled.a`
+  color: blue;
+  text-decoration-line: underline;
+  cursor: pointer;
+  &:hover {
+    color: purple;
+  }
 `;
