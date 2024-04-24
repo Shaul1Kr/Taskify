@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import LogoSrc from "../assets/logo.jpg";
 import { useState } from "react";
-import Login from "../Components/Login";
-import Register from "../Components/Register";
+import Login from "../Components/Form/Login";
+import Register from "../Components/Form/Register";
 
 export default function Form() {
   const [step, setStep] = useState<string>("Login");

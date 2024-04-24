@@ -1,7 +1,7 @@
 type Tasks = {
   title: string;
   description: string;
-  dueDate: Date;
+  dueDate: date;
   priority: string;
   status: string;
   assignee: string;
