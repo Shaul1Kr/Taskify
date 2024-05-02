@@ -1,4 +1,4 @@
-type Tasks = {
+type task = {
   title: string;
   description: string;
   dueDate: date;
@@ -6,5 +6,5 @@ type Tasks = {
   status: string;
   assignee: string;
   createdBy: string;
-  tasks: Array<Tasks>;
 };
+

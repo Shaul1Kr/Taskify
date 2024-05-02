@@ -1,41 +1,40 @@
 import Slider from "react-slick";
 import styled from "styled-components";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 
-export default function TasksSliders({ tasks }: Tasks) {
+interface TasksSlidersProps {
+  tasks: Array<task>;
+}
+
+export default function TasksSliders({ tasks }: TasksSlidersProps) {
   const settings = {
-    dots: true,
+    className: "center",
+    centerMode: true,
     infinite: true,
+    centerPadding: "60px",
+    slidesToShow: 3,
     speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
   };
 
   return (
-    <SliderStyle {...settings}>
-      {tasks.map((task) => (
-        <Card>
-          {task.title}
-          {task.status}
-          {task.assignee}
-          {task.createdBy}
-          {task.description}
-          {task.dueDate}
-          {task.priority}
-        </Card>
-      ))}
-    </SliderStyle>
+    <div className="slider-container">
+      <Slider {...settings}>
+        {tasks.map((task) => (
+          <Card>
+            <p>{task.title}</p>
+            <p>{task.createdBy}</p>
+            <p>{task.description}</p>
+            <p>{task.dueDate}</p>
+            <p>{task.priority}</p>
+            <p>{task.status}</p>
+          </Card>
+        ))}
+      </Slider>
+    </div>
   );
 }
 
-const SliderStyle = styled(Slider)`
-  .slick-prev {
-    left: 0;
-  }
-  .slick-next {
-    right: 0;
-  }
+const Card = styled.div`
+  background-color: grey;
+  padding: 5rem;
+  width: auto !important;
 `;
-
-const Card = styled.div``;

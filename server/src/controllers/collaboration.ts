@@ -8,11 +8,11 @@ export async function assign(req: Request, res: Response) {
     const { taskId } = req.params;
     const taskToUpdate = await Task.findByIdAndUpdate(taskId, { assignee });
     if (!taskToUpdate)
-      return res.status(404).json({ message: "Task not found" });
+      return res.status(204).json({ message: "Task not found" });
     return res.status(200).json({ message: "Task assign successfully" });
   } catch (error) {
-    console.log(error);
-    return res.status(401).json({ message: " Bed Request" });
+    console.error(error);
+    return res.status(500).json({ message: " Bed Request" });
   }
 }
 
@@ -20,11 +20,11 @@ export async function getComments(req: Request, res: Response) {
   try {
     const { taskId } = req.params;
     const comment = Comment.findOne({ taskId });
-    if (!comment) return res.status(404).json({ message: "Task not found" });
+    if (!comment) return res.status(204).json({ message: "Task not found" });
     return res.status(200).json({ comment });
   } catch (error) {
-    console.log(error);
-    return res.status(401).json({ message: " Bed Request" });
+    console.error(error);
+    return res.status(500).json({ message: " Bed Request" });
   }
 }
 
@@ -35,7 +35,7 @@ export async function postComment(req: Request, res: Response) {
     await Comment.create({ taskId, text, createdBy, createdAt: new Date() });
     return res.status(200).send("Comment as been saved");
   } catch (error) {
-    console.log(error);
-    return res.status(401).json({ message: "Bed Request" });
+    console.error(error);
+    return res.status(500).json({ message: "Bed Request" });
   }
 }

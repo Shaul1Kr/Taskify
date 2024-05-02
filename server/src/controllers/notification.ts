@@ -16,15 +16,15 @@ export async function getNotification(
 ) {
   try {
     //req.user.id
-    console.log(`Retrive the notification of the user`);
+    console.info(`Retrive the notification of the user`);
     const { id } = req.user;
     const notification = await Notification.find({ userId: id });
     if (!notification)
-      return res.status(401).json({ message: "No notifications" });
+      return res.status(204).json({ message: "No notifications" });
     return res.status(200).json({ notification });
   } catch (error) {
     console.log(error);
-    return res.status(401).json({ message: " Bed Request" });
+    return res.status(500).json({ message: " Bed Request" });
   }
 }
 
@@ -40,6 +40,6 @@ export async function markAllNotification(
     return res.status(200).json({ message: "Marked read on all notification" });
   } catch (error) {
     console.log(error);
-    return res.status(401).json({ message: " Bed Request" });
+    return res.status(500).json({ message: " Bed Request" });
   }
 }

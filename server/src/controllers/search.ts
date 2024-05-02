@@ -33,6 +33,6 @@ export async function filterAndSearch(req: Request, res: Response) {
     res.status(200).json(tasks);
   } catch (error) {
     console.error(error);
-    return res.status(401).json({ message: " Bed Request" });
+    return res.status(500).json({ message: " Bed Request" });
   }
 }

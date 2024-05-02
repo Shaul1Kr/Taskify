@@ -3,12 +3,12 @@ import Task from "../models/Task";
 
 export async function getTasks(req: Request, res: Response) {
   try {
-    console.log(`Getting all the tasks`);
+    console.info(`Getting all the tasks`);
     const tasks = await Task.find();
-    return res.status(200).json({ tasks });
+    return res.status(200).json(tasks);
   } catch (error) {
     console.error(error);
-    return res.status(401).json({ message: " Bed Request" });
+    return res.status(500).json({ message: " Bed Request" });
   }
 }
 
@@ -23,7 +23,7 @@ export async function createTask(req: Request, res: Response) {
       assignee,
       createdBy,
     } = req.body;
-    console.log(`Creating new task by ${createdBy}`);
+    console.info(`Creating new task by ${createdBy}`);
     await Task.create({
       title,
       description,
@@ -36,19 +36,19 @@ export async function createTask(req: Request, res: Response) {
     return res.status(200).send(`The task created successfully`);
   } catch (error) {
     console.error(error);
-    return res.status(401).json({ message: " Bed Request" });
+    return res.status(500).json({ message: " Bed Request" });
   }
 }
 
 export async function getTask(req: Request, res: Response) {
   try {
     const { taskid } = req.params;
-    console.log(`Getting task with task id: ${taskid}`);
+    console.info(`Getting task with task id: ${taskid}`);
     const task = await Task.findById(taskid);
     return res.status(200).json({ task });
   } catch (error) {
     console.error(error);
-    return res.status(401).json({ message: " Bed Request" });
+    return res.status(500).json({ message: " Bed Request" });
   }
 }
 
@@ -57,7 +57,7 @@ export async function updateTask(req: Request, res: Response) {
     const { taskid } = req.params;
     const { title, description, dueDate, priority, status, assignee } =
       req.body;
-    console.log(`Update task by task id: ${taskid}`);
+    console.info(`Update task by task id: ${taskid}`);
     await Task.findByIdAndUpdate(taskid, {
       title,
       description,
@@ -68,19 +68,19 @@ export async function updateTask(req: Request, res: Response) {
     });
     return res.status(200).send(`The task updated successfully`);
   } catch (error) {
-    console.log(error);
-    return res.status(401).json({ message: " Bed Request" });
+    console.error(error);
+    return res.status(500).json({ message: " Bed Request" });
   }
 }
 
 export async function deleteTask(req: Request, res: Response) {
   try {
     const { taskid } = req.params;
-    console.log(`Delete task with task id: ${taskid}`);
+    console.info(`Delete task with task id: ${taskid}`);
     await Task.findByIdAndDelete(taskid);
     return res.status(200).send(`The task deleted successfully`);
   } catch (error) {
-    console.log(error);
-    return res.status(401).json({ message: " Bed Request" });
+    console.error(error);
+    return res.status(500).json({ message: " Bed Request" });
   }
 }

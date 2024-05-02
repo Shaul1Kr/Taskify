@@ -12,12 +12,12 @@ export async function login(req: Request, res: Response) {
     const user = await User.findOne({ email });
     if (!user) {
       console.info("email or password incorrect1");
-      return res.status(403).json({ msg: "email or password incorrect" });
+      return res.status(401).json({ msg: "email or password incorrect" });
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       console.info("email or password incorrect2");
-      return res.status(403).json({ msg: "email or password incorrect" });
+      return res.status(401).json({ msg: "email or password incorrect" });
     }
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
@@ -48,7 +48,7 @@ export async function register(req: Request, res: Response) {
     return res.status(200).send("Register successfully");
   } catch (error) {
     console.error(error);
-    return res.status(401).json({ message: " Bed Request" });
+    return res.status(500).json({ message: " Bed Request" });
   }
 }
 
@@ -60,16 +60,16 @@ export async function changePassword(req: Request, res: Response) {
     );
     const user = await User.findOne({ email });
     if (!user)
-      return res.status(403).json({ msg: "email or password incorrect" });
+      return res.status(401).json({ msg: "email or password incorrect" });
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch)
-      return res.status(403).json({ msg: "email or password incorrect" });
+      return res.status(401).json({ msg: "email or password incorrect" });
     const salt = await bcrypt.genSalt();
     const newSaltPassword = await bcrypt.hash(newPassword, salt);
     await User.findOneAndUpdate({ email }, { password: newSaltPassword });
     return res.status(200).send("Password as been changed");
   } catch (error) {
     console.error(error);
-    return res.status(401).json({ message: " Bed Request" });
+    return res.status(500).json({ message: " Bed Request" });
   }
 }

@@ -12,7 +12,7 @@ export default function verifyToken(
 ) {
   const token = req.cookies["access_token"];
   if (!token) {
-    return res.status(403).json({ message: "Token not provided" });
+    return res.status(401).json({ message: "Token not provided" });
   }
 
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
