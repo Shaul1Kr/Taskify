@@ -13,6 +13,7 @@ export default function TasksSliders({ tasks }: TasksSlidersProps) {
     centerPadding: "60px",
     slidesToShow: 3,
     speed: 500,
+    arrows: false,
   };
 
   return (
