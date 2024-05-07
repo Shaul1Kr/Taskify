@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import Task from "../models/Task";
 
+type RequestWithUser = Request & { user: { id: string } };
+
 export async function getTasks(req: Request, res: Response) {
   try {
     console.info(`Getting all the tasks`);
@@ -12,18 +14,13 @@ export async function getTasks(req: Request, res: Response) {
   }
 }
 
-export async function createTask(req: Request, res: Response) {
+export async function createTask(req: RequestWithUser, res: Response) {
   try {
-    const {
-      title,
-      description,
-      dueDate,
-      priority,
-      status,
-      assignee,
-      createdBy,
-    } = req.body;
-    console.info(`Creating new task by ${createdBy}`);
+    const { id } = req.user;
+    const { title, description, dueDate, priority, status, assignee } =
+      req.body;
+
+    console.info(`Creating new task by ${id}`);
     await Task.create({
       title,
       description,
@@ -31,7 +28,7 @@ export async function createTask(req: Request, res: Response) {
       priority,
       status,
       assignee,
-      createdBy,
+      createdBy: id,
     });
     return res.status(200).send(`The task created successfully`);
   } catch (error) {

@@ -9,12 +9,14 @@ export default function TasksSliders({ tasks }: TasksSlidersProps) {
   const settings = {
     className: "center",
     centerMode: true,
-    infinite: true,
+    infinite: false,
     centerPadding: "60px",
-    slidesToShow: 3,
+    slidesToShow: 1,
     speed: 500,
     arrows: false,
   };
+
+  console.log({ tasks });
 
   return (
     <div className="slider-container">
