@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import styled from "styled-components";
-// import axios from "axios";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePickerField from "./DatePickerField";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface TaskForm {
   title: string;
@@ -23,6 +23,7 @@ const validationSchema = Yup.object<TaskForm>({
 
 export default function CreateTask() {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
   const initValues: TaskForm = {
     title: "",
     description: "",
@@ -40,13 +41,13 @@ export default function CreateTask() {
     const filteredValues: Partial<TaskForm> = Object.fromEntries(
       Object.entries(values).filter(([, value]) => value !== "")
     );
-    console.log({ filteredValues });
     axios
       .post("/api/task/createTask", filteredValues, {
         withCredentials: true,
       })
       .then(() => {
         setOpen(false);
+        navigate("/");
       })
       .catch(() => alert("Authentication failed"));
 
