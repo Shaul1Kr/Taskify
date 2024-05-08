@@ -19,6 +19,4 @@ const StyledContainer = styled.div`
   min-height: 100dvh;
   width: 100vw;
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
 `;

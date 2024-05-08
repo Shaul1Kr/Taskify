@@ -7,6 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import DatePickerField from "./DatePickerField";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Button } from "../ui/button";
 
 interface TaskForm {
   title: string;
@@ -57,7 +58,7 @@ export default function CreateTask() {
   return (
     <>
       <DialogWrapper>
-        <Dialog open={open}>
+        <Dialog className="bg-red-500" open={open}>
           <CloseButton
             size="2rem"
             cursor="pointer"
@@ -126,12 +127,7 @@ export default function CreateTask() {
           </Formik>
         </Dialog>
       </DialogWrapper>
-      <Button
-        style={{ display: open ? "none" : "inline-block" }}
-        onClick={() => setOpen(true)}
-      >
-        Create
-      </Button>
+      <Button onClick={() => setOpen(true)}>Create</Button>
     </>
   );
 }
@@ -164,10 +160,4 @@ const Error = styled(ErrorMessage)`
 
 const Submit = styled.button`
   cursor: pointer;
-`;
-
-const Button = styled.button`
-  width: 5%;
-  align-self: center;
-  margin-top: 2%;
 `;

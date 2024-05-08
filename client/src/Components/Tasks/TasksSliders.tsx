@@ -1,55 +1,43 @@
-import Slider from "react-slick";
-import styled from "styled-components";
-import { MdDelete } from "react-icons/md";
-import { useState } from "react";
 import DeleteDialog from "./DeleteDialog";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
+import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
 
 interface TasksSlidersProps {
   tasks: Array<task>;
 }
 
 export default function TasksSliders({ tasks }: TasksSlidersProps) {
-  const [open, setOpen] = useState<boolean>(false);
-  const settings = {
-    className: "center",
-    centerMode: true,
-    infinite: tasks.length > 1 ? true : false,
-    centerPadding: "1rem",
-    slidesToShow: tasks.length > 2 ? 3 : tasks.length,
-    speed: 500,
-    arrows: false,
-  };
-
   return (
-    <div className="slider-container">
-      <Slider {...settings}>
+    <Carousel>
+      <CarouselContent>
+        <CarouselItem className="basis-1/3"></CarouselItem>
         {tasks.map((task) => (
-          <Card key={task._id}>
-            <DeleteDialog
-              open={open}
-              setOpen={setOpen}
-              taskId={task._id}
-            ></DeleteDialog>
-            <p>{task.title}</p>
-            <p>{task.createdBy}</p>
-            <p>{task.description}</p>
-            <p>{task.dueDate}</p>
-            <p>{task.priority}</p>
-            <p>{task.status}</p>
-            <MdDelete
-              size="2rem"
-              cursor="pointer"
-              onClick={() => setOpen(true)}
-            />
-          </Card>
+          <CarouselItem className="basis-1/3">
+            <Card key={task._id}>
+              <CardHeader>
+                <CardTitle>{task.title}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p>{task.createdBy}</p>
+                <p>{task.description}</p>
+                <p>{task.dueDate}</p>
+                <p>{task.priority}</p>
+                <p>{task.status}</p>
+              </CardContent>
+              <CardFooter>
+                <DeleteDialog taskId={task._id} />
+              </CardFooter>
+            </Card>
+          </CarouselItem>
         ))}
-      </Slider>
-    </div>
+        <CarouselItem className="basis-1/3"></CarouselItem>
+      </CarouselContent>
+    </Carousel>
   );
 }
-
-const Card = styled.div`
-  background-color: grey;
-  padding: 3rem;
-  width: auto !important;
-`;
