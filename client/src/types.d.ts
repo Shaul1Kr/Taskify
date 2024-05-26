@@ -2,7 +2,8 @@ type task = {
   _id: string;
   title: string;
   description: string;
-  dueDate: date;
+  dueDateFrom: date;
+  dueDateTo: date;
   priority: string;
   status: string;
   assignee: string;

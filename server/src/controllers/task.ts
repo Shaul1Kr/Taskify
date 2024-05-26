@@ -24,7 +24,8 @@ export async function createTask(req: RequestWithUser, res: Response) {
     await Task.create({
       title,
       description,
-      dueDate,
+      dueDateFrom: dueDate.from,
+      dueDateTo: dueDate.to,
       priority,
       status,
       assignee,

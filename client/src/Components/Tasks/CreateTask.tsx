@@ -1,163 +1,185 @@
-import { useState } from "react";
-import { IoMdClose } from "react-icons/io";
-import styled from "styled-components";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
+import { z } from "zod";
 import "react-datepicker/dist/react-datepicker.css";
-import DatePickerField from "./DatePickerField";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Button } from "../ui/button";
+import { Input } from "@/Components/ui/input";
+import { Button } from "@/Components/ui/button";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { format } from "date-fns";
+import { Calendar as CalendarIcon } from "lucide-react";
 
-interface TaskForm {
-  title: string;
-  description: string;
-  dueDate: Date;
-  priority: string;
-  status: string;
-  assignee: string;
-}
+import { cn } from "@/lib/utils";
+import { Calendar } from "@/Components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/Components/ui/popover";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/Components/ui/form";
 
-const validationSchema = Yup.object<TaskForm>({
-  title: Yup.string().required("Title is required"),
+const formSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  dueDate: z
+    .object(
+      {
+        from: z.date().optional(),
+        to: z.date().optional(),
+      },
+      { required_error: "Date is required." }
+    )
+    .refine((date) => {
+      return !!date.from;
+    }, "Date is required."),
+  priority: z.string(),
+  status: z.string(),
+  assignee: z.string(),
 });
 
 export default function CreateTask() {
-  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const initValues: TaskForm = {
-    title: "",
-    description: "",
-    dueDate: new Date(),
-    priority: "",
-    status: "",
-    assignee: "",
-  };
 
-  const onSubmit = async (
-    values: TaskForm,
-    { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
-  ) => {
-    setOpen(false);
-    const filteredValues: Partial<TaskForm> = Object.fromEntries(
-      Object.entries(values).filter(([, value]) => value !== "")
-    );
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      title: "",
+      description: "",
+      dueDate: {
+        from: undefined,
+        to: undefined,
+      },
+      priority: "",
+      status: "",
+      assignee: "",
+    },
+  });
+
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    const filteredValues: Partial<z.infer<typeof formSchema>> =
+      Object.fromEntries(
+        Object.entries(values).filter(([, value]) => value !== "")
+      );
+
     axios
       .post("/api/task/createTask", filteredValues, {
         withCredentials: true,
       })
       .then(() => {
-        setOpen(false);
         navigate("/");
       })
       .catch(() => alert("Authentication failed"));
-
-    setSubmitting(false);
   };
 
   return (
     <>
-      <DialogWrapper>
-        <Dialog className="bg-red-500" open={open}>
-          <CloseButton
-            size="2rem"
-            cursor="pointer"
-            onClick={() => setOpen(false)}
-          />
-          <h1>Create new task</h1>
-          <Formik
-            initialValues={initValues}
-            validationSchema={validationSchema}
-            onSubmit={onSubmit}
-          >
-            {({ isSubmitting }) => (
-              <FormWrapper>
-                <label htmlFor="title">Task Title*</label>
-                <br />
-                <Field id="title" name="title" placeholder="Enter your title" />
-                <Error name="title" component="div" className="error" />
-                <br />
-
-                <label htmlFor="description">Task Description</label>
-                <br />
-                <Field
-                  id="description"
-                  name="description"
-                  placeholder="Enter your description"
-                />
-                <Error name="description" component="div" className="error" />
-                <br />
-                <label htmlFor="dueDate">Due Date</label>
-                <br />
-                <DatePickerField name="dueDate" />
-                <br />
-                <label htmlFor="description">Task Priority</label>
-                <br />
-                <Field
-                  id="priority"
-                  name="priority"
-                  placeholder="Enter your priority"
-                />
-                <Error name="priority" component="div" className="error" />
-                <br />
-                <label htmlFor="Status">Task Status</label>
-                <br />
-                <Field
-                  id="status"
-                  name="status"
-                  placeholder="Enter your status"
-                />
-                <Error name="status" component="div" className="error" />
-                <br />
-                <label htmlFor="assignee">Task Assignee</label>
-                <br />
-                <Field
-                  id="assignee"
-                  name="assignee"
-                  placeholder="Enter your assignee"
-                />
-                <Error name="assignee" component="div" className="error" />
-                <br />
-
-                <Submit type="submit" disabled={isSubmitting}>
-                  {isSubmitting ? "Submitting..." : "Submit"}
-                </Submit>
-              </FormWrapper>
-            )}
-          </Formik>
-        </Dialog>
-      </DialogWrapper>
-      <Button onClick={() => setOpen(true)}>Create</Button>
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button>Create</Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Create new task</DialogTitle>
+          </DialogHeader>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-8 mb-4"
+            >
+              <FormField
+                control={form.control}
+                name="title"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Title</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Description</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="dueDate"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Due Date</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          id="date"
+                          variant={"outline"}
+                          className={cn(
+                            "w-full justify-start text-left font-normal",
+                            !field.value.from && "text-muted-foreground"
+                          )}
+                        >
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          {field.value.from ? (
+                            field.value.to ? (
+                              <>
+                                {format(field.value.from, "LLL dd, y")} -{" "}
+                                {format(field.value.to, "LLL dd, y")}
+                              </>
+                            ) : (
+                              format(field.value.from, "LLL dd, y")
+                            )
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          initialFocus
+                          mode="range"
+                          defaultMonth={field.value.from}
+                          selected={{
+                            from: field.value.from!,
+                            to: field.value.to,
+                          }}
+                          onSelect={field.onChange}
+                          numberOfMonths={1}
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit">Submit</Button>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
-
-const DialogWrapper = styled.div`
-  position: absolute;
-  top: 10%;
-  right: 50%;
-  transform: translateX(50%);
-`;
-
-const Dialog = styled.dialog`
-  position: relative;
-`;
-
-const CloseButton = styled(IoMdClose)`
-  position: absolute;
-  top: 5px;
-  left: 5px;
-`;
-
-const FormWrapper = styled(Form)`
-  display: flex;
-  flex-direction: column;
-`;
-
-const Error = styled(ErrorMessage)`
-  color: red;
-`;
-
-const Submit = styled.button`
-  cursor: pointer;
-`;

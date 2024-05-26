@@ -26,7 +26,8 @@ export default function TasksSliders({ tasks }: TasksSlidersProps) {
               <CardContent>
                 <p>{task.createdBy}</p>
                 <p>{task.description}</p>
-                <p>{task.dueDate}</p>
+                <p>{task.dueDateFrom}</p>
+                <p>{task.dueDateTo}</p>
                 <p>{task.priority}</p>
                 <p>{task.status}</p>
               </CardContent>

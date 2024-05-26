@@ -3,7 +3,7 @@ import logo from "@/assets/logo.jpg";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Form,
   FormControl,
@@ -55,7 +55,10 @@ export default function Login() {
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-8 mb-4"
+            >
               <FormField
                 control={form.control}
                 name="email"
@@ -84,6 +87,9 @@ export default function Login() {
               />
               <Button type="submit">Submit</Button>
             </form>
+            <Link className="text-blue-600 underline " to="/Register">
+              Register
+            </Link>
           </Form>
         </CardContent>
       </Card>
