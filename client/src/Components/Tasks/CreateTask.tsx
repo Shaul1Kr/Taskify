@@ -24,6 +24,12 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/Components/ui/dropdown-menu";
+import {
   Form,
   FormControl,
   FormField,
@@ -33,7 +39,7 @@ import {
 } from "@/Components/ui/form";
 
 const formSchema = z.object({
-  title: z.string(),
+  title: z.string().nonempty("Title is required"),
   description: z.string(),
   dueDate: z
     .object(
@@ -46,13 +52,20 @@ const formSchema = z.object({
     .refine((date) => {
       return !!date.from;
     }, "Date is required."),
-  priority: z.string(),
-  status: z.string(),
+  priority: z.string().optional(),
+  status: z.string().optional(),
   assignee: z.string(),
 });
 
-export default function CreateTask() {
+interface CreateTaskProps {
+  users: Array<user>;
+}
+
+export default function CreateTask({ users }: CreateTaskProps) {
   const navigate = useNavigate();
+
+  const prioritys = ["Low", "Meduim", "High"];
+  const statuses = ["To-Do", "In Progress", "Done"];
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -63,8 +76,8 @@ export default function CreateTask() {
         from: undefined,
         to: undefined,
       },
-      priority: "",
-      status: "",
+      priority: "Low",
+      status: "To-Do",
       assignee: "",
     },
   });
@@ -171,6 +184,88 @@ export default function CreateTask() {
                         />
                       </PopoverContent>
                     </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="priority"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Priority</FormLabel>
+                    <FormControl>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="outline">{field.value}</Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                          {prioritys.map((priority) => (
+                            <DropdownMenuItem
+                              onClick={() =>
+                                form.setValue("priority", priority)
+                              }
+                            >
+                              {priority}
+                            </DropdownMenuItem>
+                          ))}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="status"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Priority</FormLabel>
+                    <FormControl>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="outline">{field.value}</Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                          {statuses.map((status) => (
+                            <DropdownMenuItem
+                              onClick={() => form.setValue("status", status)}
+                            >
+                              {status}
+                            </DropdownMenuItem>
+                          ))}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="assignee"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Assignee</FormLabel>
+                    <FormControl>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="outline">{field.value}</Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                          {users.map((user) => (
+                            <DropdownMenuItem
+                              onClick={() =>
+                                form.setValue("assignee", user.username)
+                              }
+                            >
+                              {user.username}
+                            </DropdownMenuItem>
+                          ))}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}

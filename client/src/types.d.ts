@@ -9,3 +9,7 @@ type task = {
   assignee: string;
   createdBy: string;
 };
+
+type user = {
+  username: string;
+};
