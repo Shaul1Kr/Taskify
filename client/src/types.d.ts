@@ -12,4 +12,5 @@ type task = {
 
 type user = {
   username: string;
+  _id: string;
 };

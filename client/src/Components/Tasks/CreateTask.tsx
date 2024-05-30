@@ -83,11 +83,13 @@ export default function CreateTask({ users }: CreateTaskProps) {
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
+    const userId = users.find(({ username }) => values.assignee === username);
+
     const filteredValues: Partial<z.infer<typeof formSchema>> =
       Object.fromEntries(
         Object.entries(values).filter(([, value]) => value !== "")
       );
-
+    filteredValues.assignee = userId?._id;
     axios
       .post("/api/task/createTask", filteredValues, {
         withCredentials: true,
