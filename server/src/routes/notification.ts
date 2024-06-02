@@ -1,8 +1,8 @@
 import express from "express";
-import { getNotification } from "../controllers/notification";
+import { sendReminders } from "../controllers/notification";
 
 const router = express.Router();
 
-router.get("/getNotification", getNotification);
+router.get("/sendReminders", sendReminders);
 
 export default router;
