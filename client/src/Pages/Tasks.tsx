@@ -26,7 +26,7 @@ export async function loader(): Promise<LoaderData> {
 }
 
 export default function Tasks() {
-  const { tasks, users } = useLoaderData<LoaderData>();
+  const { tasks, users } = useLoaderData() as LoaderData;
   console.log({ tasks }, { users });
 
   return (

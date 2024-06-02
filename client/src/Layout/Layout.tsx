@@ -4,7 +4,7 @@ import background from "../assets/background.jpg";
 
 export default function Layout() {
   return (
-    <StyledContainer background={background}>
+    <StyledContainer>
       <Outlet />
     </StyledContainer>
   );
