@@ -19,13 +19,8 @@ export async function login(req: Request, res: Response) {
       console.info("email or password incorrect2");
       return res.status(401).json({ msg: "email or password incorrect" });
     }
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
-    return res
-      .cookie("access_token", token)
-      .status(200)
-      .send("Login successfully");
+    jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    return res.status(200).send("Login successfully");
   } catch (error) {
     console.error(error);
     return res.status(401).json({ message: "Authentication failed" });
