@@ -1,6 +1,6 @@
 # Taskify
 
-Taskify is a web-based task management application designed to help users organize their tasks efficiently. Whether it's personal tasks, work-related projects, or collaborative assignments, Taskify provides a user-friendly interface for creating, managing, and tracking tasks in real-time.
+Taskify is a web-based task management application designed to help users organize their tasks efficiently. Whether it's personal tasks, work-related projects, Taskify provides a user-friendly interface for creating, managing, and tracking tasks in real-time.
 
 ## Features
 
@@ -11,19 +11,9 @@ Taskify is a web-based task management application designed to help users organi
   - **View Tasks:** Categorized dashboard (To-Do, In Progress, Done).
   - **Edit and Delete Tasks:** Modify task details or remove tasks.
 
-- **Collaboration:**
-
-  - **Assign Tasks:** Facilitate teamwork by assigning tasks.
-  - **Task Comments:** Communicate and update within the task context.
-
-- **Search and Filter:**
-
-  - **Search Tasks:** Find specific tasks using keywords or filters.
-  - **Filter Tasks:** Filter tasks by status, priority, due date, or assignee.
-
 - **Notifications:**
-  - **Task Reminders:** Receive notifications for upcoming deadlines or task assignments.
-  - **Activity Feed:** Stay updated on task changes or updates.
+
+  - **Task Reminders:** Receive notifications for upcoming deadlines or task assignments via whatsapp.
 
 ## Technologies Used
 
@@ -56,19 +46,43 @@ To get a local copy up and running, follow these steps:
    cd taskify
    ```
 
-3. Install dependencies:
+3. Navigate to the server directory:
+
+```bash
+cd server
+```
+
+4. Install dependencies:
 
    ```bash
    npm install
    ```
 
-4. Start the development server:
+5. Start the development server:
 
    ```bash
-   npm start
+   npm run dev
    ```
 
-5. Open your browser and navigate to `http://localhost:3000` to view the app.
+6. Open another terminal and Navigate to the client directory:
+
+```bash
+cd client
+```
+
+7. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+8. Start the development client:
+
+   ```bash
+   npm run dev
+   ```
+
+9. Open your browser and navigate to `http://localhost:5173` to view the app.
 
 ## Usage
 
