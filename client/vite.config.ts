@@ -16,7 +16,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://taskify-dr0v.onrender.com",
+        target: "http://localhost:8080",
         changeOrigin: true,
         secure: false,
       },
