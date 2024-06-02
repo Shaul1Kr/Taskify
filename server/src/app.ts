@@ -26,7 +26,7 @@ const dbName = process.env.DBNAME;
 mongoose
   .connect(process.env.MONGO_URL, { dbName })
   .then(() => {
-    app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
+    app.listen(PORT, () => console.info(`Server Port: ${PORT}`));
     //Insert users to db
     // data();
   })
