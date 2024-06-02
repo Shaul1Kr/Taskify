@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.use("/auth", auth);
 router.use("/notification", notification);
-router.use(verifyToken);
+// router.use(verifyToken);
 router.use("/task", task);
 router.use("/user", user);
 router.use("/serach", search);

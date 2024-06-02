@@ -19,11 +19,9 @@ export async function login(req: Request, res: Response) {
       console.info("email or password incorrect2");
       return res.status(401).json({ msg: "email or password incorrect" });
     }
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     return res
-      .cookie("access_token", token, { httpOnly: true })
+      .setHeader("Set-Cookie", "myCookie=data; Secure; HttpOnly")
       .status(200)
       .send("Login successfully");
   } catch (error) {
@@ -35,7 +33,7 @@ export async function login(req: Request, res: Response) {
 export async function register(req: Request, res: Response) {
   try {
     const { username, email, password } = req.body;
-    console.log(
+    console.info(
       `Trying to register for a new user with email: ${email} username: ${username} and password: ${password}`
     );
     const salt = await bcrypt.genSalt();
@@ -55,7 +53,7 @@ export async function register(req: Request, res: Response) {
 export async function changePassword(req: Request, res: Response) {
   try {
     const { email, password, newPassword } = req.body;
-    console.log(
+    console.info(
       `Trying to change password with email: ${email} password: ${password} with new password ${newPassword}`
     );
     const user = await User.findOne({ email });
