@@ -23,7 +23,7 @@ export async function login(req: Request, res: Response) {
       expiresIn: "1h",
     });
     return res
-      .cookie("access_token", token, { httpOnly: true })
+      .cookie("access_token", token)
       .status(200)
       .send("Login successfully");
   } catch (error) {
@@ -35,7 +35,7 @@ export async function login(req: Request, res: Response) {
 export async function register(req: Request, res: Response) {
   try {
     const { username, email, password } = req.body;
-    console.log(
+    console.info(
       `Trying to register for a new user with email: ${email} username: ${username} and password: ${password}`
     );
     const salt = await bcrypt.genSalt();
@@ -55,7 +55,7 @@ export async function register(req: Request, res: Response) {
 export async function changePassword(req: Request, res: Response) {
   try {
     const { email, password, newPassword } = req.body;
-    console.log(
+    console.info(
       `Trying to change password with email: ${email} password: ${password} with new password ${newPassword}`
     );
     const user = await User.findOne({ email });
