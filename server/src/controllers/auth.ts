@@ -21,7 +21,7 @@ export async function login(req: Request, res: Response) {
     }
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     return res
-      .cookie("access_token", token, { maxAge: 900000, httpOnly: true })
+      .setHeader("Set-Cookie", "myCookie=data; Secure; HttpOnly")
       .status(200)
       .send("Login successfully");
   } catch (error) {
