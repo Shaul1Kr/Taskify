@@ -19,9 +19,11 @@ export async function login(req: Request, res: Response) {
       console.info("email or password incorrect2");
       return res.status(401).json({ msg: "email or password incorrect" });
     }
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
     return res
-      .setHeader("Set-Cookie", "myCookie=data; Secure; HttpOnly")
+      .cookie("access_token", token, { httpOnly: true })
       .status(200)
       .send("Login successfully");
   } catch (error) {
